@@ -1,0 +1,52 @@
+using System;
+using UnityEngine;
+
+namespace Chris.PachiRogue.Core
+{
+    /// <summary>
+    /// The one and only bootstrap MonoBehaviour (Boot scene). Builds the
+    /// <see cref="ServiceRegistry"/> and registers Core services; everything
+    /// else receives its dependencies via injection from here. This is the
+    /// only class allowed to touch scene-global concerns like
+    /// DontDestroyOnLoad (see CLAUDE.md "No singletons").
+    /// </summary>
+    public sealed class GameBootstrap : MonoBehaviour
+    {
+        private const string SaveKey = "chris.pachirogue.save.v1";
+
+        [Tooltip("Session seed override for reproducible runs. 0 = derive a fresh seed at boot.")]
+        [SerializeField]
+        private long seedOverride;
+
+        public ServiceRegistry Services { get; private set; }
+
+        private void Awake()
+        {
+            Services = new ServiceRegistry();
+
+            // Seed entry point: the only place a non-IRngService source may
+            // feed randomness, and only to mint the session seed itself.
+            ulong seed = seedOverride != 0
+                ? unchecked((ulong)seedOverride)
+                : unchecked((ulong)DateTime.UtcNow.Ticks ^ ((ulong)Environment.TickCount << 32));
+
+            Services.Register<IRngService>(new RngService(seed));
+            Services.Register<IEventBus>(new EventBus());
+            Services.Register<ISaveService>(new JsonSaveService(CreateSaveBackend()));
+
+            DontDestroyOnLoad(gameObject);
+        }
+
+        private static ISaveBackend CreateSaveBackend()
+        {
+            // Runtime platform check instead of #if so both backends stay
+            // compiled and testable on every platform (PLAN.md Phase 1).
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
+            {
+                return new PlayerPrefsSaveBackend(SaveKey);
+            }
+
+            return new FileSaveBackend(Application.persistentDataPath);
+        }
+    }
+}

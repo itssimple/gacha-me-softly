@@ -1,0 +1,16 @@
+{
+    "name": "Chris.PachiRogue.Run",
+    "rootNamespace": "Chris.PachiRogue.Run",
+    "references": [
+        "Chris.PachiRogue.Core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
