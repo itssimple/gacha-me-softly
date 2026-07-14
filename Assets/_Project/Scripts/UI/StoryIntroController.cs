@@ -3,7 +3,6 @@ using System.Collections;
 using Chris.PachiRogue.Core;
 using UnityEngine;
 using UnityEngine.Localization.Settings;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 namespace Chris.PachiRogue.UI
@@ -24,8 +23,10 @@ namespace Chris.PachiRogue.UI
         private StoryIntroModel _model;
         private string _playerName = "";
         private bool _returningPlayer;
+        private bool _outroShown;
 
         private Font _font;
+        private Canvas _canvas;
         private GameObject _namePanel;
         private GameObject _storyPanel;
         private Text _promptText;
@@ -93,10 +94,10 @@ namespace Chris.PachiRogue.UI
         {
             _font = RuntimeUiFactory.LoadDefaultFont();
             RuntimeUiFactory.EnsureEventSystem();
-            Canvas canvas = RuntimeUiFactory.CreateCanvas(transform);
+            _canvas = RuntimeUiFactory.CreateCanvas(transform);
 
             _namePanel = new GameObject("NamePanel");
-            _namePanel.transform.SetParent(canvas.transform, false);
+            _namePanel.transform.SetParent(_canvas.transform, false);
             StretchFull(_namePanel.AddComponent<RectTransform>());
 
             _promptText = RuntimeUiFactory.CreateText(_namePanel.transform, "Prompt", _font, 52,
@@ -112,7 +113,7 @@ namespace Chris.PachiRogue.UI
             confirm.onClick.AddListener(OnConfirmName);
 
             _storyPanel = new GameObject("StoryPanel");
-            _storyPanel.transform.SetParent(canvas.transform, false);
+            _storyPanel.transform.SetParent(_canvas.transform, false);
             StretchFull(_storyPanel.AddComponent<RectTransform>());
 
             _storyText = RuntimeUiFactory.CreateText(_storyPanel.transform, "StoryText", _font, 48,
@@ -196,24 +197,30 @@ namespace Chris.PachiRogue.UI
 
         private void OnStoryButtonClicked()
         {
+            if (_outroShown)
+            {
+                // Hand off to the run flow: the DemoRunDriver (later the real
+                // run loop) picks this up and starts stage 1.
+                _canvas.gameObject.SetActive(false);
+                _eventBus.Publish(new StoryIntroCompleted { PlayerName = _playerName });
+                return;
+            }
+
             if (_model.Advance())
             {
                 StartCoroutine(ShowCurrentPage());
             }
             else
             {
-                CompleteIntro();
+                StartCoroutine(ShowOutro());
             }
         }
 
-        private void CompleteIntro()
+        private IEnumerator ShowOutro()
         {
-            _eventBus.Publish(new StoryIntroCompleted { PlayerName = _playerName });
-
-            // Terminal beat until Phase 2 delivers the first launch: the
-            // outro stays on screen with no further input.
-            _storyButton.gameObject.SetActive(false);
-            StartCoroutine(SetLocalizedText(_storyText, StoryKeys.Outro, NameArgs()));
+            _outroShown = true;
+            yield return SetLocalizedText(_storyText, StoryKeys.Outro, NameArgs());
+            yield return SetLocalizedText(_storyButtonLabel, UiKeys.Continue);
         }
 
         private object[] NameArgs()
@@ -223,27 +230,12 @@ namespace Chris.PachiRogue.UI
 
         private IEnumerator SetLocalizedText(Text target, string key, object[] arguments = null)
         {
-            yield return GetLocalized(key, value => target.text = value, arguments);
+            return LocalizedTextUtility.SetText(target, StoryKeys.Table, key, arguments);
         }
 
         private IEnumerator GetLocalized(string key, Action<string> onDone, object[] arguments = null)
         {
-            // Yield on the async handle — WaitForCompletion is unsupported on
-            // WebGL (Phase 0 note in NOTES.md).
-            AsyncOperationHandle<string> handle =
-                LocalizationSettings.StringDatabase.GetLocalizedStringAsync(StoryKeys.Table, key, arguments);
-            yield return handle;
-
-            if (handle.Status == AsyncOperationStatus.Succeeded && !string.IsNullOrEmpty(handle.Result))
-            {
-                onDone(handle.Result);
-            }
-            else
-            {
-                Debug.LogError(
-                    $"Missing localized string '{key}' in table '{StoryKeys.Table}'. " +
-                    "Run 'PachiRogue > Localization > Create Story Tables' in the editor.");
-            }
+            return LocalizedTextUtility.Get(StoryKeys.Table, key, arguments, onDone);
         }
     }
 }

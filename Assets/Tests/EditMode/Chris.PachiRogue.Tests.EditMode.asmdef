@@ -5,6 +5,7 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Chris.PachiRogue.Core",
+        "Chris.PachiRogue.Run",
         "Chris.PachiRogue.UI"
     ],
     "includePlatforms": [

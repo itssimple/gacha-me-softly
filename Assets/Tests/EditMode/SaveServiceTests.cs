@@ -32,6 +32,9 @@ namespace Chris.PachiRogue.Tests.EditMode
                 score = 123456789L,
                 acquiredUpgradeIds = new List<string> { "bouncy_boots", "heavy_core", "moon_gravity" },
                 metaCurrency = 999L,
+                metNpcIds = new List<string> { "pip", "kapp" },
+                passiveAbilityIds = new List<string> { "glowheart", "tailwind" },
+                passiveAbilityLevels = new List<int> { 3, 1 },
                 unlockFlags = new List<string> { "character.puni", "relic.starter_spring" },
                 savedAtUnixUtc = 1760000000L
             };
@@ -52,6 +55,9 @@ namespace Chris.PachiRogue.Tests.EditMode
             Assert.AreEqual(expected.score, actual.score);
             CollectionAssert.AreEqual(expected.acquiredUpgradeIds, actual.acquiredUpgradeIds);
             Assert.AreEqual(expected.metaCurrency, actual.metaCurrency);
+            CollectionAssert.AreEqual(expected.metNpcIds, actual.metNpcIds);
+            CollectionAssert.AreEqual(expected.passiveAbilityIds, actual.passiveAbilityIds);
+            CollectionAssert.AreEqual(expected.passiveAbilityLevels, actual.passiveAbilityLevels);
             CollectionAssert.AreEqual(expected.unlockFlags, actual.unlockFlags);
             Assert.AreEqual(expected.savedAtUnixUtc, actual.savedAtUnixUtc);
         }

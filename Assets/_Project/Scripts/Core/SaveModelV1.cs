@@ -32,7 +32,13 @@ namespace Chris.PachiRogue.Core
         public long score;
         public List<string> acquiredUpgradeIds = new List<string>();
 
+        // Meta progression: star-shards (the meta currency), befriended NPCs,
+        // and passive-ability levels as parallel lists (JsonUtility has no
+        // dictionary support).
         public long metaCurrency;
+        public List<string> metNpcIds = new List<string>();
+        public List<string> passiveAbilityIds = new List<string>();
+        public List<int> passiveAbilityLevels = new List<int>();
         public List<string> unlockFlags = new List<string>();
 
         public long savedAtUnixUtc;

@@ -3,6 +3,7 @@
     "rootNamespace": "Chris.PachiRogue.UI",
     "references": [
         "Chris.PachiRogue.Core",
+        "Chris.PachiRogue.Run",
         "UnityEngine.UI",
         "Unity.Localization",
         "Unity.ResourceManager",

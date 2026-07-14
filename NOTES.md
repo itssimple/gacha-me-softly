@@ -142,6 +142,44 @@ Implementation notes:
 4. To proof the Swedish text: Window → Asset Management → Localization Scene
    Controls, switch the active locale to `sv` while in play mode.
 
+## Interludes: between-stage story, friends & passive abilities
+
+After every cleared stage an interlude shows: a story beat advancing the
+Everlight arc (player name woven in, keys `interlude.stage1..14` +
+`interlude.victory`), scripted NPC meetings, and passive-ability upgrades.
+
+- **NPC friends** (content assets in `Assets/_Project/Content/Npcs`): Pip &
+  Mirabel (Meadow), Kapp & Momo (Onsen Town), Sora & Yuki (Sky Shrine). New
+  friends are met after stages 2, 4, 7, 9 and 12 — the planner picks a
+  random unmet NPC from the current act's pool via a forked `IRngService`
+  stream (`interlude.stageN`), so which of Sora/Yuki you meet varies by
+  seed. Friends persist in `SaveModelV1.metNpcIds`.
+- **Passive abilities** (`Content/Abilities`): each friend teaches one —
+  Moonberry Snacks (+MaxHealth), Glowheart (+ShardGain), Springy Soak
+  (+Bounciness), Lucky Towel (+Luck), Tailwind (+LaunchPower), Steady Paws
+  (+AimControl). Levels cost star-shards (`metaCurrency`), cost = base +
+  perLevel × currentLevel; levels persist as parallel lists in the save.
+  `PlayerStats` computes effective stats (base + Σ bonus×level) — launch
+  physics/drafting consume these in Phases 2/4. Shard awards are already
+  scaled by the ShardGain stat.
+- **Architecture**: `InterludePlanner` (pure, seeded, tested) plans;
+  `InterludeDirector` (Run) owns save mutation and validates purchases; UI
+  (`InterludeScreenController`) only renders `InterludePlan` snapshots from
+  `InterludeReady`/`InterludeUpdated` and publishes `UpgradeRequested` /
+  `InterludeCompleted` — per CLAUDE.md, no UI reach-in.
+- **`DemoRunDriver` is a placeholder**: it publishes the `StageCleared`
+  events real gameplay will publish (stages advance instantly on Continue).
+  Remove it from the Boot scene when the Phase 2–4 run loop lands.
+- Content `.asset` files were authored as YAML against our own script GUIDs
+  (safe — no package GUIDs involved). Verify they load in the editor; if an
+  asset shows as broken, recreate via the `PachiRogue` Create-menus with the
+  same field values.
+- SaveModelV1 extended again pre-ship: `metNpcIds`, `passiveAbilityIds`,
+  `passiveAbilityLevels` (parallel lists — JsonUtility has no dictionaries).
+
+Demo flow in play mode: intro → name → 3 story pages → outro → Continue →
+15 stages of interludes (meet friends, buy upgrades) → victory screen.
+
 ### Deferred decisions / open questions
 
 - CI (GitHub Actions + Unity CLI, per CLAUDE.md Testing) needs a licensed
