@@ -1,14 +1,15 @@
 {
-    "name": "Chris.PachiRogue.UI",
-    "rootNamespace": "Chris.PachiRogue.UI",
+    "name": "Chris.PachiRogue.Editor",
+    "rootNamespace": "Chris.PachiRogue.Editor",
     "references": [
         "Chris.PachiRogue.Core",
-        "UnityEngine.UI",
+        "Chris.PachiRogue.UI",
         "Unity.Localization",
-        "Unity.ResourceManager",
-        "Unity.InputSystem"
+        "Unity.Localization.Editor"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

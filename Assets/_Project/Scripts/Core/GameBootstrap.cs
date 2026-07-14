@@ -34,7 +34,25 @@ namespace Chris.PachiRogue.Core
             Services.Register<IEventBus>(new EventBus());
             Services.Register<ISaveService>(new JsonSaveService(CreateSaveBackend()));
 
+            InjectSceneConsumers();
+
             DontDestroyOnLoad(gameObject);
+        }
+
+        private void InjectSceneConsumers()
+        {
+            // Scene-wide object lookup is permitted in bootstrap only — this
+            // is the composition root wiring the Boot scene (CLAUDE.md).
+            MonoBehaviour[] behaviours =
+                FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+            foreach (MonoBehaviour behaviour in behaviours)
+            {
+                if (behaviour is IServiceConsumer consumer)
+                {
+                    consumer.InitServices(Services);
+                }
+            }
         }
 
         private static ISaveBackend CreateSaveBackend()

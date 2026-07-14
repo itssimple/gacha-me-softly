@@ -89,6 +89,59 @@ YAML/meta files so the project opens and compiles in Unity 6 LTS:
    empty development build; repeat for WebGL. Both should compile with the
    Boot scene only.
 
+## Story intro (user-requested, ahead of Phase 4 UI)
+
+"The Last Light of the Sky Shrine": on first boot the player is asked for
+their name, which is woven into a three-page intro about running to save the
+Sky Shrine's shattered Everlight (ties into the GDD's Meadow / Onsen Town /
+Sky Shrine acts). The name persists in `SaveModelV1.playerName`; returning
+players get a personalized welcome-back beat instead. `StoryIntroCompleted`
+is published on the event bus when the player hits "Begin the run" — the
+Phase 4 run loop will start from that signal.
+
+Implementation notes:
+
+- All text lives in the Unity Localization **"Story"** table (en + sv), with
+  `{0}` as the player-name argument (plain `String.Format`, not SmartFormat).
+  The table assets are generated programmatically by
+  `PachiRogue > Localization > Create Story Tables`
+  (`Assets/_Project/Scripts/Editor/LocalizationStorySetup.cs`) so both
+  locales are authored in code and reviewed together. Keys are constants in
+  `Chris.PachiRogue.UI.StoryKeys`.
+- The uGUI hierarchy is **built at runtime** (`RuntimeUiFactory`) so the Boot
+  scene needs no hand-wired canvas or package-GUID references. It uses the
+  legacy `Text`/`InputField` with the built-in `LegacyRuntime.ttf` font
+  (`Arial.ttf` was removed from Unity — Phase 0 check). This is a deliberate
+  placeholder: Phase 4's real HUD/draft UI moves to TextMeshPro after the
+  TMP Essential Resources import.
+- `GameBootstrap` now injects services into any scene component implementing
+  `Chris.PachiRogue.Core.IServiceConsumer` (scene-wide lookup is allowed in
+  bootstrap only, per CLAUDE.md).
+- `RuntimeUiFactory.EnsureEventSystem()` has the project's one non-gyro `#if`
+  (`ENABLE_INPUT_SYSTEM`) to pick the matching UI input module — commented
+  with the PLAN.md reference as required.
+- Localized strings are fetched by yielding on `GetLocalizedStringAsync`
+  handles — never `WaitForCompletion`, which is unsupported on WebGL.
+- New Editor-only assembly `Chris.PachiRogue.Editor`
+  (`Assets/_Project/Scripts/Editor`) — not part of the CLAUDE.md runtime
+  layout; it holds editor tooling only and never ships in builds.
+- Added because SaveModelV1 had not shipped yet: `playerName` field (still
+  primitives-only). Had a save been in the wild this would have been a
+  SaveModelV2 + migration instead.
+
+### Story intro — manual editor steps
+
+1. After opening the project, run **PachiRogue → Localization → Create Story
+   Tables** once (regenerates safely; overwrites entry values).
+2. If prompted by the Input System package to enable the new input backends,
+   accept — the story UI's event system supports either backend.
+3. Enter play mode in `Boot`: name prompt → three story pages (your name
+   woven in) → "Begin the run" → outro. Restart play mode to see the
+   welcome-back path. Delete the save (or PlayerPrefs key
+   `chris.pachirogue.save.v1` on WebGL) to reset.
+4. To proof the Swedish text: Window → Asset Management → Localization Scene
+   Controls, switch the active locale to `sv` while in play mode.
+
 ### Deferred decisions / open questions
 
 - CI (GitHub Actions + Unity CLI, per CLAUDE.md Testing) needs a licensed

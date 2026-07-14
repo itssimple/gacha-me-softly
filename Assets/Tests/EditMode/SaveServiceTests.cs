@@ -24,6 +24,7 @@ namespace Chris.PachiRogue.Tests.EditMode
         {
             var model = new SaveModelV1
             {
+                playerName = "Åsa-Britt",
                 isRunActive = true,
                 stageIndex = 7,
                 launchesRemaining = 3,
@@ -41,6 +42,7 @@ namespace Chris.PachiRogue.Tests.EditMode
         private static void AssertModelsEqual(SaveModelV1 expected, SaveModelV1 actual)
         {
             Assert.AreEqual(expected.version, actual.version);
+            Assert.AreEqual(expected.playerName, actual.playerName);
             Assert.AreEqual(expected.runSeedBits, actual.runSeedBits);
             Assert.AreEqual(expected.RunSeed, actual.RunSeed);
             Assert.AreEqual(expected.isRunActive, actual.isRunActive);

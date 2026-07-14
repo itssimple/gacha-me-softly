@@ -17,6 +17,10 @@ namespace Chris.PachiRogue.Core
 
         public int version = CurrentVersion;
 
+        // Player profile. Empty playerName means the intro (name entry) has
+        // not been completed yet.
+        public string playerName = "";
+
         // Run seed stored as long bits: JsonUtility's ulong support has been
         // inconsistent across Unity versions, long is safe everywhere.
         public long runSeedBits;
