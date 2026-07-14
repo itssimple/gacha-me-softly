@@ -16,5 +16,19 @@ namespace Chris.PachiRogue.UI
         public const string ShardReport = "interlude.shards";
         public const string Joined = "interlude.joined";
         public const string UpgradeTitle = "interlude.upgrade_title";
+
+        public const string HudStage = "hud.stage";
+        public const string HudScore = "hud.score";
+        public const string HudLaunches = "hud.launches";
+        public const string HudHealth = "hud.health";
+
+        public const string DraftTitle = "draft.title";
+        public const string DraftChoiceCommon = "draft.choice_common";
+        public const string DraftChoiceRare = "draft.choice_rare";
+        public const string DraftChoiceEpic = "draft.choice_epic";
+
+        public const string RunEndDefeat = "runend.defeat";
+        public const string RunEndBonus = "runend.bonus";
+        public const string RunAgain = "runend.again";
     }
 }

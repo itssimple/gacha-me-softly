@@ -22,6 +22,9 @@ namespace Chris.PachiRogue.Core
 
         private void Awake()
         {
+            // Mobile target (PLAN.md Phase 5); harmless elsewhere.
+            Application.targetFrameRate = 60;
+
             Services = new ServiceRegistry();
 
             // Seed entry point: the only place a non-IRngService source may

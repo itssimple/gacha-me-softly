@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc3cca861994e96803871b08e77df3c, type: 3}
+  m_Name: Chunk_Diamond
+  m_EditorClassIdentifier: 
+  id: diamond
+  difficultyBand: 0
+  topConnector: 0
+  bottomConnector: 0
+  rewardBudget: 80
+  allowMirror: 0
+  height: 5
+  pegs:
+  - {x: 0, y: -0.8}
+  - {x: -1.2, y: -1.8}
+  - {x: 1.2, y: -1.8}
+  - {x: -2.4, y: -2.6}
+  - {x: 2.4, y: -2.6}
+  - {x: -1.2, y: -3.4}
+  - {x: 1.2, y: -3.4}
+  - {x: 0, y: -4.2}
+  bumpers: []
+  hazards: []
+  artPrefab: {fileID: 0}

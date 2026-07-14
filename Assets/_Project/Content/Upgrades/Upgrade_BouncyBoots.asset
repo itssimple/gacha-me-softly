@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b428a430f1494531815bfbdd377be492, type: 3}
+  m_Name: Upgrade_BouncyBoots
+  m_EditorClassIdentifier: 
+  id: bouncy_boots
+  nameKey: upgrade.bouncy_boots.name
+  descriptionKey: upgrade.bouncy_boots.desc
+  rarity: 1
+  mutators:
+  - {fileID: 11400000, guid: 284240128b8a4bc98ad6c8601e04a2a6, type: 2}
+  statDeltas: []

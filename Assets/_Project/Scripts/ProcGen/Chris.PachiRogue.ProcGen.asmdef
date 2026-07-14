@@ -2,7 +2,8 @@
     "name": "Chris.PachiRogue.ProcGen",
     "rootNamespace": "Chris.PachiRogue.ProcGen",
     "references": [
-        "Chris.PachiRogue.Core"
+        "Chris.PachiRogue.Core",
+        "Chris.PachiRogue.Physics"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

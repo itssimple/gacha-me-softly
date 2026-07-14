@@ -5,6 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Chris.PachiRogue.Core",
+        "Chris.PachiRogue.Physics",
+        "Chris.PachiRogue.ProcGen",
         "Chris.PachiRogue.Run",
         "Chris.PachiRogue.UI"
     ],

@@ -30,9 +30,9 @@ namespace Chris.PachiRogue.UI
             return Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         }
 
-        public static Canvas CreateCanvas(Transform parent)
+        public static Canvas CreateCanvas(Transform parent, bool withBackground = true)
         {
-            var go = new GameObject("StoryCanvas");
+            var go = new GameObject("RuntimeCanvas");
             go.transform.SetParent(parent, false);
 
             var canvas = go.AddComponent<Canvas>();
@@ -45,7 +45,11 @@ namespace Chris.PachiRogue.UI
 
             go.AddComponent<GraphicRaycaster>();
 
-            CreateFullScreenImage(canvas.transform, "Background", Background);
+            if (withBackground)
+            {
+                CreateFullScreenImage(canvas.transform, "Background", Background);
+            }
+
             return canvas;
         }
 

@@ -180,6 +180,68 @@ Everlight arc (player name woven in, keys `interlude.stage1..14` +
 Demo flow in play mode: intro → name → 3 story pages → outro → Continue →
 15 stages of interludes (meet friends, buy upgrades) → victory screen.
 
+## Phases 2–4 implemented (+ Phase 5 code-side)
+
+The full game loop now exists in code: intro → name → story → aim & launch
+(drag slingshot, trajectory preview) → pegs/bumpers/cups/hazards resolve →
+score gate → interlude (story/friends/passives) → draft (1 of 3 upgrades)
+→ next procgen stage → boss every 5th (placeholder: doubled gate) → stage
+15 victory or defeat → meta shards → run again.
+
+Key decisions / deviations to know about:
+
+- **Runtime-constructed gameplay objects.** The body (Rigidbody2D +
+  CircleCollider2D + CollisionRouter + squash/stretch child), launcher
+  (LineRenderer preview), stage geometry, camera follow, and gyro assist
+  are all created from code by `RunDirector`/`StageBuilder` — hand-authoring
+  built-in component YAML blind was the riskier path. The Boot scene only
+  carries plain MonoBehaviours + content-asset references.
+- **Chunks are data-driven graybox layouts** (peg/bumper/hazard positions
+  on the ChunkSO) instead of prefab references. The SO keeps an optional
+  `artPrefab` field — assign themed prefabs later and the builder uses them
+  with zero assembler changes. This deviates from PLAN.md Phase 3's
+  "prefab reference" wording; recorded here per the ground rules.
+- **Graybox visuals** are procedurally generated circle/square sprites
+  (`GrayboxSprites`) — zero texture assets. ASSET_GUIDE.md maps every
+  placeholder to a generated-art replacement.
+- **Determinism**: per-stage seeds fork off the run seed
+  (`RngService(runSeed).Fork("stageN")`) — same run seed replays the same
+  stage layouts and drafts (daily-run ready). Physics outcomes still vary
+  per device by design (GDD §3).
+- **Mid-run resume**: saved at stage start and stage clear, and on
+  `OnApplicationPause` (Phase 5). Resume lands at the start of the saved
+  stage; a kill during Drafting skips that draft (documented compromise —
+  a full Drafting-state resume can come with a SaveModelV2).
+- **Victory flow**: stage 15 clear shows the victory interlude as the
+  payoff screen; RunEnd overlays only a compact "Run again" strip. Defeat
+  shows a full run-end panel. `interlude.victory_header`'s header shows on
+  the victory interlude.
+- **Phase 5 code-side done**: 60 fps target, pause auto-save, HUD safe
+  area, gyro assist behind the sanctioned `#if !UNITY_WEBGL` guard
+  (off by default), WebGL-safe localization/persistence throughout.
+  Device profiling, ASTC/Brotli build settings, and the physics layer
+  matrix are editor/build tasks — see manual steps.
+- **Launch economy ballpark** (untuned): 5 launches/stage, peg 10 pts,
+  gates 150+40·(stage−1) → 350+70·(stage−1) by act, boss ×2. Expect to
+  tune in the editor with real physics feel.
+
+### Phases 2–4 — manual editor steps
+
+1. Regenerate localization: PachiRogue → Localization → Create Story
+   Tables (new keys for HUD/draft/run-end/upgrades were added).
+2. Play Boot: complete the intro, then drag on screen to aim (mouse in
+   editor), release to launch. Clear the gate within 5 launches.
+3. Check the physics 2D settings: fixed timestep 0.02 (project default) =
+   the GDD's 50 Hz — no change needed unless it was edited.
+4. Run the EditMode suite (now ~70 tests incl. assembler determinism,
+   draft weighting over 10k rolls, mutator stacking) and the PlayMode
+   smoke tests.
+5. Android/WebGL: build once per platform; set Android texture compression
+   to ASTC and WebGL compression to Brotli in build settings (Phase 5's
+   size pass is manual).
+6. Balance pass: gates/launch counts in `Content/Recipes`, peg values in
+   chunk layouts, upgrade numbers in `Content/Upgrades` — all data, no code.
+
 ### Deferred decisions / open questions
 
 - CI (GitHub Actions + Unity CLI, per CLAUDE.md Testing) needs a licensed

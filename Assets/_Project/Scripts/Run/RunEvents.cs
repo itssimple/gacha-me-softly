@@ -47,4 +47,81 @@ namespace Chris.PachiRogue.Run
     {
         public string NpcId;
     }
+
+    /// <summary>Run lifecycle phases (transitions only via events — CLAUDE.md).</summary>
+    public enum RunPhase
+    {
+        Idle,
+        Advancing,
+        BossIntro,
+        Aiming,
+        Resolving,
+        StageClear,
+        Interlude,
+        Drafting,
+        RunEnd
+    }
+
+    public struct RunStarted
+    {
+        public ulong Seed;
+    }
+
+    public struct RunPhaseChanged
+    {
+        public RunPhase Phase;
+    }
+
+    public struct StageStarted
+    {
+        public int StageIndex;
+        public bool IsBoss;
+        public long ScoreGate;
+    }
+
+    public struct LaunchesChanged
+    {
+        public int Remaining;
+    }
+
+    public struct ScoreChanged
+    {
+        public long StageScore;
+        public long Gate;
+    }
+
+    public struct HealthChanged
+    {
+        public int Current;
+        public int Max;
+    }
+
+    /// <summary>Three draft choices are ready for the player.</summary>
+    public struct UpgradeChoicesReady
+    {
+        public System.Collections.Generic.List<UpgradeData> Choices;
+    }
+
+    /// <summary>UI request to draft one of the offered upgrades.</summary>
+    public struct UpgradePickRequested
+    {
+        public string UpgradeId;
+    }
+
+    public struct UpgradeDrafted
+    {
+        public string UpgradeId;
+    }
+
+    public struct RunEnded
+    {
+        public bool Victory;
+        public int StageReached;
+        public int ShardBonus;
+    }
+
+    /// <summary>UI request to start a fresh run after RunEnd.</summary>
+    public struct RunRestartRequested
+    {
+    }
 }

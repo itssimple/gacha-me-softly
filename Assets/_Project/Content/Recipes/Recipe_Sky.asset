@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c5091731a4941d6803832490c3f1610, type: 3}
+  m_Name: Recipe_Sky
+  m_EditorClassIdentifier: 
+  id: sky
+  chunkCount: 3
+  maxDifficultyBand: 2
+  rewardBudgetMin: 150
+  rewardBudgetMax: 600
+  hazardCap: 6
+  scoreGateBase: 350
+  scoreGatePerStage: 70
+  bossGateMultiplier: 2
+  launchesPerStage: 5

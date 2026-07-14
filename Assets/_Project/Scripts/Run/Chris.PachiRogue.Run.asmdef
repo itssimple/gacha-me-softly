@@ -2,7 +2,9 @@
     "name": "Chris.PachiRogue.Run",
     "rootNamespace": "Chris.PachiRogue.Run",
     "references": [
-        "Chris.PachiRogue.Core"
+        "Chris.PachiRogue.Core",
+        "Chris.PachiRogue.Physics",
+        "Chris.PachiRogue.ProcGen"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

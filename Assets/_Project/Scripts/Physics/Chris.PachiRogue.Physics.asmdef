@@ -2,7 +2,8 @@
     "name": "Chris.PachiRogue.Physics",
     "rootNamespace": "Chris.PachiRogue.Physics",
     "references": [
-        "Chris.PachiRogue.Core"
+        "Chris.PachiRogue.Core",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

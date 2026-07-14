@@ -41,6 +41,13 @@ namespace Chris.PachiRogue.UI
 
             _subscriptions.Add(_eventBus.Subscribe<InterludeReady>(evt => Render(evt.Plan, fullRender: true)));
             _subscriptions.Add(_eventBus.Subscribe<InterludeUpdated>(evt => Render(evt.Plan, fullRender: false)));
+            _subscriptions.Add(_eventBus.Subscribe<RunStarted>(_ =>
+            {
+                if (_canvas != null)
+                {
+                    _canvas.gameObject.SetActive(false);
+                }
+            }));
         }
 
         private void OnDestroy()

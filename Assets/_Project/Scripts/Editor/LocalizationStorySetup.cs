@@ -289,7 +289,98 @@ namespace Chris.PachiRogue.Editor
                     "Yuki steadies your aim on the ledge. Each level improves " +
                     "control.",
                     "Yuki stadgar ditt sikte på avsatsen. Varje nivå förbättrar " +
-                    "kontrollen.")
+                    "kontrollen."),
+
+                // --- HUD ----------------------------------------------------------
+                ["hud.stage"] = (
+                    "Stage {0}",
+                    "Nivå {0}"),
+                ["hud.score"] = (
+                    "Score {0} / {1}",
+                    "Poäng {0} / {1}"),
+                ["hud.launches"] = (
+                    "Launches {0}",
+                    "Kast {0}"),
+                ["hud.health"] = (
+                    "HP {0}/{1}",
+                    "HP {0}/{1}"),
+
+                // --- Draft screen -------------------------------------------------
+                ["draft.title"] = (
+                    "Choose an upgrade",
+                    "Välj en uppgradering"),
+                ["draft.choice_common"] = (
+                    "{0}\n{1}",
+                    "{0}\n{1}"),
+                ["draft.choice_rare"] = (
+                    "{0} (Rare)\n{1}",
+                    "{0} (Sällsynt)\n{1}"),
+                ["draft.choice_epic"] = (
+                    "{0} (Epic!)\n{1}",
+                    "{0} (Episk!)\n{1}"),
+
+                // --- Run end ------------------------------------------------------
+                ["runend.defeat"] = (
+                    "The shards slip away at stage {1}… but the meadow remembers " +
+                    "every step, {0}. Puni is already dusting herself off.",
+                    "Skärvorna glider dig ur händerna på nivå {1} … men ängen minns " +
+                    "varje steg, {0}. Puni borstar redan av sig."),
+                ["runend.bonus"] = (
+                    "Meta bonus: {0} star-shards.",
+                    "Metabonus: {0} stjärnskärvor."),
+                ["runend.again"] = (
+                    "Run again",
+                    "Spring igen"),
+
+                // --- Run upgrades (draftable) -------------------------------------
+                ["upgrade.bouncy_boots.name"] = (
+                    "Bouncy Boots",
+                    "Studsstövlar"),
+                ["upgrade.bouncy_boots.desc"] = (
+                    "Puni bounces higher and livelier off everything.",
+                    "Puni studsar högre och livligare mot allt."),
+                ["upgrade.heavy_core.name"] = (
+                    "Heavy Core",
+                    "Tung kärna"),
+                ["upgrade.heavy_core.desc"] = (
+                    "Heavier and harder-hitting, but harder to steer.",
+                    "Tyngre och slagkraftigare, men svårare att styra."),
+                ["upgrade.moon_gravity.name"] = (
+                    "Moon Gravity",
+                    "Mångravitation"),
+                ["upgrade.moon_gravity.desc"] = (
+                    "Every peg hit briefly makes gravity feather-light.",
+                    "Varje pinnträff gör gravitationen fjäderlätt en kort stund."),
+                ["upgrade.power_launch.name"] = (
+                    "Power Launch",
+                    "Kraftkast"),
+                ["upgrade.power_launch.desc"] = (
+                    "Launch power up — reach deeper into the stage.",
+                    "Mer kastkraft — nå djupare in i nivån."),
+                ["upgrade.shard_magnet.name"] = (
+                    "Shard Magnet",
+                    "Skärvmagnet"),
+                ["upgrade.shard_magnet.desc"] = (
+                    "Gather noticeably more star-shards after each stage.",
+                    "Samla märkbart fler stjärnskärvor efter varje nivå."),
+                ["upgrade.lucky_star.name"] = (
+                    "Lucky Star",
+                    "Lyckostjärna"),
+                ["upgrade.lucky_star.desc"] = (
+                    "Fortune favors you — rarer upgrades appear in drafts.",
+                    "Turen står dig bi — sällsyntare uppgraderingar dyker upp i valen."),
+                ["upgrade.tough_skin.name"] = (
+                    "Tough Skin",
+                    "Seg hud"),
+                ["upgrade.tough_skin.desc"] = (
+                    "More maximum health, and a soothing heal on pickup.",
+                    "Högre maxhälsa, och en lindrande läkning direkt."),
+                ["upgrade.steady_hand.name"] = (
+                    "Steady Hand",
+                    "Stadig hand"),
+                ["upgrade.steady_hand.desc"] = (
+                    "A longer, calmer trajectory preview when aiming.",
+                    "En längre och lugnare siktlinje när du siktar.")
             };
 
         [MenuItem("PachiRogue/Localization/Create Story Tables")]
